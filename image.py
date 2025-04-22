@@ -11,11 +11,12 @@ detector = HandDetector(maxHands=1)
 offset = 20
 imgSize = 300
 counter = 0
+save_flag = False
 
 
 # ✅ Get correct absolute folder path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-folder = os.path.join(BASE_DIR, "Data", "Okay")
+folder = os.path.join(BASE_DIR, "Data", "C")
 
 # ✅ Create the folder if it doesn't exist
 if not os.path.exists(folder):
@@ -56,17 +57,28 @@ while True:
             hGap = (imgSize - hCal) // 2
             imgWhite[hGap:hGap + hCal, :] = imgResize
 
+        # Save image if save_flag is active
+        if save_flag:
+            counter += 1
+            filename = os.path.join(folder, f"Image_{time.time()}.jpg")
+            cv2.imwrite(filename, imgWhite)
+            print(f"[Saved] {filename}")
+
         # Display cropped and white canvas
-        cv2.imshow("ImageCrop", imgCrop)
+        #cv2.imshow("ImageCrop", imgCrop)
         cv2.imshow("ImageWhite", imgWhite)
 
     cv2.imshow("Original", img)
     # Save on keypress "s"
+    # Key handler
     key = cv2.waitKey(1)
-    if key == ord("s"):
+    if key == ord('s'):
+        save_flag = True
+        #print("[INFO] Saving started... Press 'q' to stop.")
         counter += 1
-        imgPath = os.path.join(folder, f"Image_{time.time()}.jpg")
-        cv2.imwrite(imgPath, imgWhite)
-        print(f"Saved: {imgPath}")
+        print(counter)
+    elif key == ord('q'):
+        save_flag = False
+        print("[INFO] Saving stopped.")
 
 

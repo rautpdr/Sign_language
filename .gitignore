@@ -1,0 +1,10 @@
+# Ignore data and model folders
+Data/
+Model/
+
+# Ignore PyCharm/IDEA project settings
+.idea/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
